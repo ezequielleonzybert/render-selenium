@@ -51,7 +51,7 @@ def fill_form():
 
 service = Service(executable_path="chromedriver.exe")
 chrome_options = Options()
-chrome_options.add_argument()
+chrome_options.add_argument("--headless")
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 driver.get("https://www.correoargentino.com.ar/MiCorreo/public/login")
