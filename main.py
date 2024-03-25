@@ -16,9 +16,8 @@ wait = WebDriverWait(driver, timeout=10)
 url = 'https://www.correoargentino.com.ar/MiCorreo/public/login'
 driver.get(url)
 
-email = 'choboku@gmail.com'
-# print('password: ')
-password = 'choboku'
+email = 'relig87936@storesr.com'
+password = '123456'
 names_values = {'email':email, 'password':password}
 
 while driver.current_url == url:
