@@ -4,10 +4,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class Locator:
-    def __init__(self, type, path, value=None, id=None):
+    def __init__(self, type, path, value=None, key=None, button=False, id=None):
         self.type = type
         self.path = path
-        self.value = value        
+        self.value = value   
+        self.key = key     
+        self.button = button
         self.id = id
 
     def get(self):
@@ -15,13 +17,18 @@ class Locator:
         element = globals.wait.until(EC.visibility_of_element_located(locator))
         return element
 
-    def fill(self, element):
+    def set(self, element):
         if self.value:
             element.send_keys(self.value)
-        else:
-            print(self.id + ': ')
-            self.value = input()
-            element.send_keys(self.value)
+        else: 
+            if self.key:
+                element.send_keys(self.key)
+            elif self.button:
+                element.click()
+            else:
+                print(self.id + ': ')
+                self.value = input()
+                element.send_keys(self.value)
 
 
     
