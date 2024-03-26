@@ -24,10 +24,10 @@ while globals.driver.current_url == url:
 url = 'https://www.correoargentino.com.ar/MiCorreo/public/envio'
 globals.driver.get(url)
 
-#Borrar los pedidos previos
+#Delete previous tasks
 envios_previos = Locator(By.XPATH, '//*[@id="divListado"]/div[1]').get()
 if envios_previos.text != 'Sin envios cargados':
-    #aquí el codigo de borrar pedidos
+    #Here the code
     pass 
 
 datos_sucursal = Locator(By.CLASS_NAME, 'datosSucursal').get()
