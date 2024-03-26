@@ -1,83 +1,56 @@
-import time
+import globals
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from functions import WaitLocators, FillLocators, InputValues
+from Locator import Locator
 
-service = Service(executable_path='chromedriver.exe')
-chrome_options = Options()
-# chrome_options.add_argument('--headless')
-driver = webdriver.Chrome(service=service, options=chrome_options)
-wait = WebDriverWait(driver, timeout=10)
 url = 'https://www.correoargentino.com.ar/MiCorreo/public/login'
-driver.get(url)
+globals.driver.get(url)
 
-email = 'choboku@gmail.com'
-# print('password: ')
-password = 'choboku'
-names_values = {'email':email, 'password':password}
+locators = [
+    Locator(By.NAME, 'email', 'relig87936@storesr.com'),
+    Locator(By.NAME, 'password', '123456')
+]
+while globals.driver.current_url == url:
+    elements = []
+    for locator in locators:
+        elements.append(locator.get())
+        locator.fill(elements[-1])
+    elements[-1].send_keys(Keys.ENTER)
 
-while driver.current_url == url:
-    locators = []
-    WaitLocators(driver, By, wait, names_values, locators)
-    FillLocators(names_values, locators)
-    locators[-1].send_keys(Keys.ENTER)
+url = 'https://www.correoargentino.com.ar/MiCorreo/public/envio'
+globals.driver.get(url)
 
-url = 'https://www.correoargentino.com.ar/MiCorreo/public/envio' 
-driver.get(url)
-datos_sucursal = driver.find_element(By.CLASS_NAME, 'datosSucursal')
-wait.until(lambda d : datos_sucursal.is_displayed())
-btn_siguiente = driver.find_element(By.ID, 'btn-siguiente-envios')
+#Borrar los pedidos previos
+envios_previos = Locator(By.XPATH, '//*[@id="divListado"]/div[1]').get()
+if envios_previos.text != 'Sin envios cargados':
+    #aquí el codigo de borrar pedidos
+    pass 
+
+datos_sucursal = Locator(By.CLASS_NAME, 'datosSucursal').get()
+btn_siguiente = Locator(By.ID, 'btn-siguiente-envios').get()
 btn_siguiente.click()
 
-names_values = {
-    'destino_nombre': 'nombre',
-    'destino_provincia': None,
-    'destino_localidad': None,
-    'destino_calle': None,
-    'destino_altura': None,
-    'destino_cp': None,
-    'destino_mail': 'mail@mail.com'
-    }
-locators = []
-WaitLocators(driver, By, wait, names_values, locators)
-InputValues(names_values)
-FillLocators(names_values, locators)
-btn_siguiente = driver.find_element(By.XPATH, "//*[@id='panel2']/div/div/div/div[4]/div/button[2]")
-wait.until(lambda d : btn_siguiente.is_displayed())
+locators = [
+    Locator(By.NAME, 'destino_nombre', 'nombre'),
+    Locator(By.NAME, 'destino_provincia', id='Provincia'),
+    Locator(By.NAME, 'destino_localidad', id='Localidad'),
+    Locator(By.NAME, 'destino_calle', id='Calle'),
+    Locator(By.NAME, 'destino_altura', id='Altura'),
+    Locator(By.NAME, 'destino_cp', id='Código postal'),
+    Locator(By.NAME, 'destino_mail', 'mail@mail.com')
+]
+
+elements = []
+for locator in locators:
+    elements.append(locator.get())
+    locator.fill(elements[-1])
+
+btn_siguiente = Locator(By.XPATH, "//*[@id='panel2']/div/div/div/div[4]/div/button[2]").get()
 btn_siguiente.click()
 
-tipo_producto = driver.find_element(By.NAME, 'tipo_producto')
-wait.until(lambda d : tipo_producto.is_displayed())
-tipo_producto.send_keys(Keys.ARROW_DOWN)
-
-names_values = {
-    'peso': None,
-    'largo': None,
-    'ancho': None,
-    'altura': None,
-    'valor': '1',
-    }
-locators = []
-WaitLocators(driver, By, wait, names_values, locators)
-InputValues(names_values)
-FillLocators(names_values, locators)
-btn_agregar = driver.find_element(By.ID, 'btnagregar')
-wait.until(lambda d : btn_agregar.is_displayed())
-btn_agregar.click()
-
-checkbox = driver.find_element(By.XPATH, '//*[@id="divListado"]/div[1]/table/thead[1]/tr/td/div/label')
-wait.until(lambda d : checkbox.is_displayed())
-checkbox.click()
-
-btn_pedido = driver.find_element(By.ID, 'btnpedido')
-wait.until(lambda d : btn_pedido.is_displayed())
-btn_pedido.click()
 
 input()
-driver.get('https://www.correoargentino.com.ar/MiCorreo/public/logout')
-driver.close()
