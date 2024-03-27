@@ -41,7 +41,6 @@ if envios_previos.text != 'Sin envios cargados':
     btn_aceptar_locator.set(btn_aceptar_locator.get())
     
 datos_sucursal = Locator(By.CLASS_NAME, 'datosSucursal').get()
-globals.driver.save_screenshot('sucursal.png')
 btn_siguiente = Locator(By.CSS_SELECTOR, '#btn-siguiente-envios', button=True)
 btn_siguiente.set(btn_siguiente.get())
 
@@ -81,7 +80,7 @@ locators = [
     Locator(By.CSS_SELECTOR, '#divListado > div.table-responsive.dvEnvios > table > thead.origen > tr > td > div > label', button=True),
     Locator(By.CSS_SELECTOR, '#btnpedido', button=True)
 ]
-globals.driver.save_screenshot('cotizar.png')
+
 elements = []
 for locator in locators:
     elements.append(locator.get())
