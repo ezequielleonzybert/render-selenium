@@ -3,11 +3,6 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 import platform
-import subprocess
-
-comando = "echo $PATH"
-resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
-print(resultado.stdout)
 
 OS = platform.system()
 if OS == 'Windows':
