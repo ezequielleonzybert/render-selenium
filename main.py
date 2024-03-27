@@ -5,7 +5,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from Locator import Locator
+from locator import Locator
+
+print('Cargando programa')
 
 url = 'https://www.correoargentino.com.ar/MiCorreo/public/login'
 globals.driver.get(url)
@@ -28,18 +30,19 @@ globals.driver.get(url)
 envios_previos = Locator(By.XPATH, '//*[@id="divListado"]/div[1]').get()
 if envios_previos.text != 'Sin envios cargados':
     locators = [
-        Locator(By.XPATH, '//*[@id="divListado"]/div[1]/table/thead[1]/tr/td/div/label', button=True),
-        Locator(By.XPATH, '//*[@id="page-wrapper"]/div[1]/div[5]/div/div[2]/button', button=True)
+        Locator(By.CSS_SELECTOR, '#divListado > div.table-responsive.dvEnvios > table > thead.origen > tr > td > div > label', button=True),
+        Locator(By.CSS_SELECTOR, '#page-wrapper > div.envio > div:nth-child(5) > div > div:nth-child(3) > button', button=True)
     ]
     elements = []
     for locator in locators:
         elements.append(locator.get())
         locator.set(elements[-1])
-    btn_aceptar_locator = Locator(By.XPATH, '//*[@id="mensajeModalFooterGen"]/button[1]', button=True)
+    btn_aceptar_locator = Locator(By.CSS_SELECTOR, '#mensajeModalFooterGen > button:nth-child(1)', button=True)
     btn_aceptar_locator.set(btn_aceptar_locator.get())
     
 datos_sucursal = Locator(By.CLASS_NAME, 'datosSucursal').get()
-btn_siguiente = Locator(By.ID, 'btn-siguiente-envios', button=True)
+globals.driver.save_screenshot('sucursal.png')
+btn_siguiente = Locator(By.CSS_SELECTOR, '#btn-siguiente-envios', button=True)
 btn_siguiente.set(btn_siguiente.get())
 
 locators = [
@@ -50,9 +53,10 @@ locators = [
     Locator(By.NAME, 'destino_altura', id='Altura'),
     Locator(By.NAME, 'destino_cp', id='Código postal'),
     Locator(By.NAME, 'destino_mail', 'mail@mail.com'),
-    Locator(By.XPATH, "//*[@id='panel2']/div/div/div/div[4]/div/button[2]", button=True)
+    Locator(By.CSS_SELECTOR, "#panel2 > div > div > div > div.form-group > div > button.btn.btn-primary.boton-siguiente.btn-siguiente-envios.ayudita", button=True)
 ]
 
+print('\nDatos del destino:')
 elements = []
 for locator in locators:
     elements.append(locator.get())
@@ -65,7 +69,7 @@ locators = [
     Locator(By.NAME, 'ancho', id='Ancho(cm)'),
     Locator(By.NAME, 'altura', id='Altura(cm)'),
     Locator(By.NAME, 'valor', value='1'),
-    Locator(By.ID, 'btnagregar', button=True)
+    Locator(By.CSS_SELECTOR, '#btnagregar', button=True)
 ]
 
 elements = []
@@ -74,13 +78,18 @@ for locator in locators:
     locator.set(elements[-1])
 
 locators = [
-    Locator(By.XPATH, '//*[@id="divListado"]/div[1]/table/thead[1]/tr/td/div/label', button=True),
-    Locator(By.ID, 'btnpedido', button=True)
+    Locator(By.CSS_SELECTOR, '#divListado > div.table-responsive.dvEnvios > table > thead.origen > tr > td > div > label', button=True),
+    Locator(By.CSS_SELECTOR, '#btnpedido', button=True)
 ]
+globals.driver.save_screenshot('cotizar.png')
 elements = []
 for locator in locators:
     elements.append(locator.get())
     locator.set(elements[-1])
 
 precio = Locator(By.XPATH, '//*[@id="page-wrapper"]/div[2]/div[1]/div/div[3]/span').get().text
-print('El costo de envío es: ' + precio)
+print('El costo de envío es: ' + precio[:-3])
+
+url = 'https://www.correoargentino.com.ar/MiCorreo/public/logout'
+globals.driver.get(url)
+globals.driver.close()

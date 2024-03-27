@@ -24,7 +24,10 @@ class Locator:
             if self.key:
                 element.send_keys(self.key)
             elif self.button:
-                element.click()
+                globals.driver.execute_script(
+                    f"document.querySelector('{self.path}').click()"
+                )
+                # element.click()
             else:
                 print(self.id + ': ')
                 self.value = input()
