@@ -1,4 +1,4 @@
-echo 'export PATH=$PATH:/path/to/driver' >> ~/.bash_profile
+echo 'export PATH=$PATH:/opt/render/project/src' >> ~/.bash_profile
 source ~/.bash_profile
 
 pip install -r requirements.txt
