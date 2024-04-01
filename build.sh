@@ -3,5 +3,3 @@ source ~/.bash_profile
 
 pip install -r requirements.txt
 pip install webdriver-manager
-pip install --upgrade webdriver_manager
-

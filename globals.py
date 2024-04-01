@@ -10,7 +10,8 @@ if OS == 'Windows':
 elif OS == 'Linux':
     from webdriver_manager.chrome import ChromeDriverManager
     # service = Service(executable_path='/chromedriverlinux')
-    service = Service(ChromeDriverManager().install())
+    driver_path = ChromeDriverManager().install()
+    service = Service(executable_path=driver_path)
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--log-level=3')
