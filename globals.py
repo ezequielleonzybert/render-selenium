@@ -8,10 +8,7 @@ OS = platform.system()
 if OS == 'Windows':
     service = Service(executable_path='chromedriver.exe')
 elif OS == 'Linux':
-    from webdriver_manager.chrome import ChromeDriverManager
-    # service = Service(executable_path='/chromedriverlinux')
-    driver_path = ChromeDriverManager().install()
-    service = Service(executable_path=driver_path)
+    service = Service(executable_path='/chromedriverlinux')
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--log-level=3')
