@@ -17,3 +17,9 @@ else
 fi
 
 pip install -r requirements.txt
+
+# Obtener el directorio actual
+CURRENT_DIR=$(dirname "$0")
+
+# Agregar el directorio actual al PYTHONPATH
+export PYTHONPATH="$CURRENT_DIR:$PYTHONPATH"
