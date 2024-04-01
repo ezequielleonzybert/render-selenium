@@ -16,5 +16,4 @@ else
   echo "...Using Chrome from cache"
 fi
 
-
 pip install -r requirements.txt
